@@ -1,7 +1,0 @@
-{
-"account_id": 1,
-"salaryAdditionType" : "sittingAllowance",
-"salaryAddition": {
-    "additionAmount":23435,
-    "description": "really cool" 
-}}
