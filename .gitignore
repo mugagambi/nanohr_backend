@@ -1,0 +1,10 @@
+hrisapp/api/__pycache__
+hrisapp/__pycache__
+hrisapp/migrations
+hrisproject/hrisproject/__pycache__
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
