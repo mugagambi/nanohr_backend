@@ -160,7 +160,7 @@ class PaymentStatus(models.Model):
 
     @property
     def basicpay(self):
-         '''
+        '''
             basic pay
         '''
         account = self.account
