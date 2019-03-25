@@ -9,6 +9,18 @@ def JSONEncoder_newdefault(self, o):
     return JSONEncoder_olddefault(self, o)
 JSONEncoder.default = JSONEncoder_newdefault
 
+class Department(models.Model):
+    '''
+        the available departments on the company
+    '''
+    id = models.AutoField(primary_key=True)
+    departmentName = models.CharField(max_length=20)
+
+class UserDepartment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    department = models.ForeignKey(Department,on_delete=models.CASCADE)
+    designation = models.CharField(max_length=20)
+
 class Education(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.ForeignKey(User,related_name="educations",on_delete=models.CASCADE)
@@ -23,6 +35,39 @@ class Education(models.Model):
    # TODO grades/certificates
    # TODO add file uploads
 
+class UserAttendance(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    timeIn = models.TimeField(blank=True,null=True)
+    timeOut = models.TimeField(blank=True,null=True)
+    
+    @property
+    def weekday(self):
+        today = self.date.weekday()
+
+        return today
+
+class LeavesAndHoliDays(models.Model):
+    leaveType = models.CharField(max_length=50)
+
+class UserLeavesAndHolidays(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    leaveType = models.ForeignKey(LeavesAndHoliDays,on_delete=models.CASCADE)
+    startDate = models.DateField(blank=True) 
+    endDate = models.DateField(blank=True)
+    description = models.CharField(max_length=50)
+    approved = models.BooleanField(default=False)
+
+class Vacancy(models.Model):
+    vacantPost = models.CharField(max_length=20)
+    description = models.CharField(max_length=100)
+
+class Applicants(models.Model):
+    vacancyAppliedTo = models.ForeignKey(Vacancy,on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    email = models.EmailField()
+    phonenumber = models.CharField(max_length=10)
+    cv = models.FileField()
 
 class AvailablePaymentMethod(models.Model):
     '''
@@ -74,11 +119,6 @@ class SalaryType(models.Model):
     basicPay = models.FloatField(default = 00.00)
     commision = models.ForeignKey(Commision,related_name="salarytypes",on_delete=models.CASCADE)
 
-class Department(models.Model):
-    '''
-        the available departments on the company
-    '''
-    departmentName = models.CharField(max_length=20)
 
 #TODO add bank model mapping bank to accont number *not sure ho this works
 class InternalDeductionType(models.Model):
@@ -195,7 +235,6 @@ class PaymentStatus(models.Model):
         deductionTotal = 0
         for internalDeduction in queryset:
             if internalDeduction.settled == False:
-                print(internalDeduction.draftCounter)
                 deductionTotal += internalDeduction.deductionThisMonth
         return deductionTotal
 

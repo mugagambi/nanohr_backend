@@ -3,6 +3,13 @@ from rest_framework import generics
 from hrisapp.models import *
 from hrisapp.api.serializers import *
 #TODO change views name to userdetailList 
+
+class GeneralDetail(generics.ListCreateAPIView):
+    def get_queryset(self):
+        queryset = User.objects.filter(id = self.kwargs["pk"])
+        return queryset
+    serializer_class = UserSerializer
+
 class AccountList(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = Account.objects.filter(id = self.kwargs["pk"])

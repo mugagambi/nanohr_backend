@@ -15,7 +15,13 @@ admin.site.register(PaymentStatus)
 admin.site.register(GovernmentDeduction)
 admin.site.register(InternalDeductionType)
 admin.site.register(Department)
+admin.site.register(UserDepartment)
 admin.site.register(Sale)
+admin.site.register(UserAttendance)
+admin.site.register(LeavesAndHoliDays)
+admin.site.register(UserLeavesAndHolidays)
+admin.site.register(Vacancy)
+admin.site.register(Applicants)
 
 
 

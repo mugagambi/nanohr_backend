@@ -15,6 +15,26 @@ class UserSerializer(serializers.ModelSerializer):
                 'validators': [UnicodeUsernameValidator()],
             }
         }
+
+
+class UserAttendanceSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model = UserAttendance
+        fields = ('user','date','timeIn','timeOut','weekday')
+
+class LeavesAndHolidaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LeavesAndHoliDays
+        fields = ('leaveType',)
+
+class UserLeavesAndHolidaySerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    leaveType = LeavesAndHolidaySerializer()
+    class Meta:
+        model = UserLeavesAndHolidays
+        fields = ('user','leaveType','startDate','endDate','description','approved',)
+
 class EducationSerializer(serializers.ModelSerializer):
     username =  UserSerializer()
     class Meta:
@@ -25,8 +45,15 @@ class EducationSerializer(serializers.ModelSerializer):
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        fields = ('departmentName',)
+        fields = ('id','departmentName',)
         extra_kwargs = {'id': {'read_only': False}}
+
+class UserDepartmentSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    department = DepartmentSerializer()
+    class Meta:
+        model = UserDepartment
+        fields = ('user','department','designation')
 
 class AvailablePaymentMethodSerializer(serializers.ModelSerializer):
 

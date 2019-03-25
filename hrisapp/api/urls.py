@@ -5,6 +5,11 @@ from .views import listviews,userdetailviews,detailviews,updateviews,addViews
 urlpatterns = [
    #listing without details
     path('userlist/', listviews.UserList.as_view()),
+    path('attendance-list/<slug:filter>/', listviews.AttendanceList.as_view()),
+    path('attendance-list-full/<slug:year>/<slug:month>/<slug:day>/', listviews.attendanceListForSpecificDate.as_view()),
+    path('department-list/',listviews.departmentList.as_view()),
+    path('leave-types/', listviews.LeaveTypeList.as_view()),
+    path('user-leaves-list/', listviews.UserLeaveList.as_view()),
     path('available-payment-methods-list/', listviews.AvailablePaymentMethodList.as_view()),
     path('salary-type-list/', listviews.SalaryTypeList.as_view()),
     path('accounts-list/', listviews.AccountList.as_view()),
@@ -17,7 +22,7 @@ urlpatterns = [
     path('commision-list/', listviews.CommisionList.as_view()),
     path('sales-list/', listviews.SalesList.as_view()),
 
-   #serializers to post data .
+   #urls to post data .
     path('addAccount/',addViews.addAccount.as_view()),
     path('addInternalDeduction/', addViews.addInternalDeduction.as_view()),
     path('addAllowance/',addViews.addAllowance.as_view()),
@@ -32,7 +37,9 @@ urlpatterns = [
     path('user-payment-status-detail/<int:pk>/', userdetailviews.PaymentStatusList.as_view()),
     path('user-salary-addition-detail/<int:pk>/', userdetailviews.SalaryAdditionList.as_view()),
     path('user-salary-deduction-detail/<int:pk>/', userdetailviews.InternalDeductionList.as_view()),
+    path('user-general-detail/<int:pk>/', userdetailviews.GeneralDetail.as_view()),
    #detail view for the other models with primary keys
+    path('employees-in-department/<int:pk>/', detailviews.EmployeesInDepartmentPK.as_view()),
     path('salary-type-accounts/<int:pk>/', detailviews.AccountsWithSalaryTypePK.as_view()),
     path('preffered-payment-method-accounts/<int:pk>/', detailviews.AccountsWithPrefferedPaymentmethodPK.as_view()),
     path('salary-addition-accounts/<int:pk>/', detailviews.AccountsWithSalaryAdditionPK.as_view()),
