@@ -17,6 +17,7 @@ class Department(models.Model):
     departmentName = models.CharField(max_length=20)
 
 class UserDepartment(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     department = models.ForeignKey(Department,on_delete=models.CASCADE)
     designation = models.CharField(max_length=20)
@@ -36,6 +37,7 @@ class Education(models.Model):
    # TODO add file uploads
 
 class UserAttendance(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     timeIn = models.TimeField(blank=True,null=True)
@@ -48,9 +50,11 @@ class UserAttendance(models.Model):
         return today
 
 class LeavesAndHoliDays(models.Model):
+    id = models.AutoField(primary_key=True)
     leaveType = models.CharField(max_length=50)
 
 class UserLeavesAndHolidays(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     leaveType = models.ForeignKey(LeavesAndHoliDays,on_delete=models.CASCADE)
     startDate = models.DateField(blank=True) 
@@ -59,10 +63,12 @@ class UserLeavesAndHolidays(models.Model):
     approved = models.BooleanField(default=False)
 
 class Vacancy(models.Model):
+    id = models.AutoField(primary_key=True)
     vacantPost = models.CharField(max_length=20)
     description = models.CharField(max_length=100)
 
 class Applicants(models.Model):
+    id = models.AutoField(primary_key=True)
     vacancyAppliedTo = models.ForeignKey(Vacancy,on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     email = models.EmailField()
@@ -90,6 +96,7 @@ class GovernmentRate(models.Model):
     ''' 
         stores such data as nssf tax nhif etc
     '''
+    id = models.AutoField(primary_key=True)
     rateName = models.CharField(max_length=10)
     rateBasicAmount = models.FloatField(default=0.00)
     ratePercentage = models.FloatField(default=0.00)
@@ -139,7 +146,6 @@ class Account(models.Model):
     username = models.ForeignKey(User,related_name="accounts",on_delete=models.CASCADE)
     prefferedPaymentMethod = models.ForeignKey(AvailablePaymentMethod,related_name="accounts",on_delete=models.CASCADE)
     salaryType = models.ForeignKey(SalaryType,related_name="accounts",on_delete=models.CASCADE)
-    department = models.ForeignKey(Department,related_name="accounts",on_delete=models.CASCADE)
     bankName = models.CharField(max_length=20)
     phonenumber = models.CharField(max_length=20)
     internalDeductions = models.ManyToManyField(InternalDeductionType,through='InternalDeduction')
@@ -150,6 +156,7 @@ class Sale(models.Model):
     '''
         A sale the employee makes in that month
     '''
+    id = models.AutoField(primary_key=True)
     account = models.ForeignKey(Account,on_delete=models.CASCADE)
     salesWorth = models.FloatField(default=0.00)
 

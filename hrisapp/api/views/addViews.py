@@ -34,19 +34,12 @@ class addAccount(APIView):
         serializer = SalaryTypeSerializer(salaryType)
         salaryType = serializer.data
 
-        department_id = request.data.get("department_id")
-        queryset = Department.objects.filter(id = department_id)
-        department = []
-        for department in queryset:
-            department = department
-        serializer = DepartmentSerializer(department)
-        department = serializer.data
        
         bankName = request.data.get("bankName")
         phoneNumber = request.data.get("phoneNumber")
     
         data = {'username':username,'prefferedPaymentMethod':prefferedPaymentMethod,
-        'salaryType':salaryType,'department':department,'bankName':bankName,'phonenumber':phoneNumber}
+        'salaryType':salaryType,'bankName':bankName,'phonenumber':phoneNumber}
         serializer = CreateAccountSerializer(data=data)
         if serializer.is_valid():
             created = serializer.save()

@@ -22,7 +22,7 @@ class UserAttendanceSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = UserAttendance
-        fields = ('user','date','timeIn','timeOut','weekday')
+        fields = ('id','user','date','timeIn','timeOut','weekday')
     def create(self,validated_data):
 
         user_data = validated_data.pop('user')
@@ -45,20 +45,20 @@ class UserAttendanceSerializer(serializers.ModelSerializer):
 class LeavesAndHolidaySerializer(serializers.ModelSerializer):
     class Meta:
         model = LeavesAndHoliDays
-        fields = ('leaveType',)
+        fields = ('id','leaveType',)
 
 class UserLeavesAndHolidaySerializer(serializers.ModelSerializer):
     user = UserSerializer()
     leaveType = LeavesAndHolidaySerializer()
     class Meta:
         model = UserLeavesAndHolidays
-        fields = ('user','leaveType','startDate','endDate','description','approved',)
+        fields = ('id','user','leaveType','startDate','endDate','description','approved',)
 
 class EducationSerializer(serializers.ModelSerializer):
     username =  UserSerializer()
     class Meta:
         model = Education
-        fields = ('username', 'elementaryEducation', 'secondaryEducation', 'HigherEducation',
+        fields = ('id','username', 'elementaryEducation', 'secondaryEducation', 'HigherEducation',
                   'professionalQualification', 'postGradEducation', )
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -74,7 +74,7 @@ class UserDepartmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserDepartment
-        fields = ('user','department','designation')
+        fields = ('id','user','department','designation')
 
     def create(self,validated_data):
 
@@ -93,7 +93,7 @@ class AvailablePaymentMethodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AvailablePaymentMethod
-        fields = ('paymentMethod', 'addedDate', )
+        fields = ('id','paymentMethod', 'addedDate', )
 
 class CommisionSerializer(serializers.ModelSerializer):
 
@@ -137,19 +137,20 @@ class GovernmentRateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GovernmentRate
-        fields = ('rateName', 'rateBasicAmount', 'ratePercentage',)
+        fields = ('id','rateName', 'rateBasicAmount', 'ratePercentage',)
 
 class governmentDeduction(serializers.ModelSerializer):
 
     class Meta:
         model = GovernmentDeduction
-        fields = ('deductionName', 'deductionAmount',)
+        fields = ('id','deductionName', 'deductionAmount',)
 
 class InternalDeductionTypeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = InternalDeductionType
         fields = ('id','deductionName','description',)
+        read_only_fields = ('id',)
         extra_kwargs = {'id': {'read_only': False}}
 
         
@@ -175,10 +176,9 @@ class CreateAccountSerializer(serializers.ModelSerializer):
     username =  UserSerializer()
     prefferedPaymentMethod = AvailablePaymentMethodSerializer()
     salaryType = SalaryTypeSerializer()
-    department = DepartmentSerializer()
     class Meta:
         model = Account
-        fields = fields = ('id','username', 'prefferedPaymentMethod','department','salaryType','bankName','phonenumber','internalDeductions','salaryAdditions')   
+        fields = fields = ('id','username', 'prefferedPaymentMethod','salaryType','bankName','phonenumber','internalDeductions','salaryAdditions')   
     def create(self,validated_data):
 
         user_data = validated_data.pop('username')
@@ -192,13 +192,12 @@ class CreateAccountSerializer(serializers.ModelSerializer):
         salaryType = {}
         salaryType = SalaryType.objects.get( id = salaryType_data["id"])
 
-        department_data = validated_data.pop('department')
-        department = {}
-        department = Department.objects.get(**department_data)
         
         account = Account.objects.create(username=username,prefferedPaymentMethod=prefferedPaymentMethod,
-                                        salaryType = salaryType,department = department ,**validated_data)
+                                        salaryType = salaryType,**validated_data)
         return account
+
+
 
 class InternalDeductionSerializer(serializers.ModelSerializer):
  

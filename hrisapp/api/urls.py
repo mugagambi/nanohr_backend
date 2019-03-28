@@ -44,6 +44,7 @@ urlpatterns = [
 
    #detail view for the other models with primary keys
     path('department/<int:pk>/', detailviews.DepartmentWithIdPK.as_view()),
+    path('internal-deduction-type/<int:pk>/', detailviews.InternalDeductionTypeWithIdPK.as_view()),
     path('employees-in-department/<int:pk>/', detailviews.EmployeesInDepartmentPK.as_view()),
     path('salary-type-accounts/<int:pk>/', detailviews.AccountsWithSalaryTypePK.as_view()),
     path('preffered-payment-method-accounts/<int:pk>/', detailviews.AccountsWithPrefferedPaymentmethodPK.as_view()),
