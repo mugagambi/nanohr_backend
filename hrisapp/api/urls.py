@@ -6,7 +6,7 @@ urlpatterns = [
    #listing without details
     path('userlist/', listviews.UserList.as_view()),
     path('attendance-list/<slug:filter>/', listviews.AttendanceList.as_view()),
-    path('attendance-list-full/<slug:year>/<slug:month>/<slug:day>/', listviews.attendanceListForSpecificDate.as_view()),
+    path('attendance-list-full/<slug:month>/<slug:day>/<slug:year>/', listviews.attendanceListForSpecificDate.as_view()),
     path('department-list/',listviews.departmentList.as_view()),
     path('leave-types/', listviews.LeaveTypeList.as_view()),
     path('user-leaves-list/', listviews.UserLeaveList.as_view()),
@@ -23,6 +23,9 @@ urlpatterns = [
     path('sales-list/', listviews.SalesList.as_view()),
 
    #urls to post data .
+
+    path('check-in/',addViews.CheckIn.as_view()),
+    path('addUserToDepartment/',addViews.AddUserToDepartment.as_view()),
     path('addAccount/',addViews.addAccount.as_view()),
     path('addInternalDeduction/', addViews.addInternalDeduction.as_view()),
     path('addAllowance/',addViews.addAllowance.as_view()),
@@ -38,14 +41,18 @@ urlpatterns = [
     path('user-salary-addition-detail/<int:pk>/', userdetailviews.SalaryAdditionList.as_view()),
     path('user-salary-deduction-detail/<int:pk>/', userdetailviews.InternalDeductionList.as_view()),
     path('user-general-detail/<int:pk>/', userdetailviews.GeneralDetail.as_view()),
+
    #detail view for the other models with primary keys
+    path('department/<int:pk>/', detailviews.DepartmentWithIdPK.as_view()),
     path('employees-in-department/<int:pk>/', detailviews.EmployeesInDepartmentPK.as_view()),
     path('salary-type-accounts/<int:pk>/', detailviews.AccountsWithSalaryTypePK.as_view()),
     path('preffered-payment-method-accounts/<int:pk>/', detailviews.AccountsWithPrefferedPaymentmethodPK.as_view()),
     path('salary-addition-accounts/<int:pk>/', detailviews.AccountsWithSalaryAdditionPK.as_view()),
     path('commision-type-accounts/<int:pk>/', detailviews.AccountsWithCommisiontypePK.as_view()),
     path('internal-deduction-accounts/<int:pk>/', detailviews.AccountsWithInternalDeductionPK.as_view()),
+
    #update urls for user instances
+    path('check-out/',updateviews.CheckOutUserPK.as_view()), 
     path('update-account-info/<int:pk>/',updateviews.UpdateAccountForUserPK.as_view()), 
     path('update-deduction-info/<int:pk>/',updateviews.UpdateDeductionsForUserPK.as_view()),
     path('update-payment-status-info/<int:pk>/',updateviews.UpdatePaymentStatusForUserPK.as_view()),

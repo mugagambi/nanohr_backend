@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from hrisapp.models import *
 from hrisapp.api.serializers import *
 
+import datetime
+
 class addAccount(APIView):
     def post(self,request):
         
@@ -154,3 +156,54 @@ class CreateDraft(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class AddUserToDepartment(APIView):
+    def post(self,request):
+
+        user_id = request.data.get("user_id")
+        queryset = User.objects.filter(id = user_id)
+        user = []
+        for user in queryset:
+            user = user
+        serializer = UserSerializer(user)
+        user = serializer.data
+
+        department_id = request.data.get("department_id")
+        queryset = Department.objects.filter(id = department_id)
+        department = []
+        for department in queryset:
+            department = department
+        serializer = DepartmentSerializer(department)
+        department = serializer.data
+
+        designation = request.data.get("designation")
+    
+        data = {'user':user,'department':department,'designation':designation}
+        serializer = UserDepartmentSerializer(data=data)
+        if serializer.is_valid():
+            created = serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CheckIn(APIView):
+    def post(self,request):
+ 
+        user_id = request.data.get("user_id")
+        queryset = User.objects.filter(id = user_id)
+        user = []
+        for user in queryset:
+            user = user
+        serializer = UserSerializer(user)
+        user = serializer.data
+
+        now = datetime.datetime.now()
+        timeIn = now.strftime("%H:%M:%S")
+
+        data = {'user':user,'timeIn':timeIn}
+        serializer = UserAttendanceSerializer(data=data)
+        if serializer.is_valid():
+            created = serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

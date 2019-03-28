@@ -13,7 +13,7 @@ class Department(models.Model):
     '''
         the available departments on the company
     '''
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True,blank = True)
     departmentName = models.CharField(max_length=20)
 
 class UserDepartment(models.Model):
@@ -37,7 +37,7 @@ class Education(models.Model):
 
 class UserAttendance(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField(auto_now_add=True)
     timeIn = models.TimeField(blank=True,null=True)
     timeOut = models.TimeField(blank=True,null=True)
     

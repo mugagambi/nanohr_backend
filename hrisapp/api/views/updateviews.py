@@ -5,7 +5,21 @@ from rest_framework.views import APIView
 #TODO import each componet singly
 from hrisapp.models import *
 from hrisapp.api.serializers import *
+
+from datetime import datetime
 #update views for models related to a specific user
+class CheckOutUserPK(APIView):
+
+    def patch(self, request):
+        user_id = request.data.get("user_id")
+        userAttendance = UserAttendance.objects.get(user_id = user_id ,date=datetime.now())
+        
+        serializer = UserAttendanceSerializer(userAttendance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 class UpdateAccountForUserPK(APIView):
 
     def patch(self, request, pk):

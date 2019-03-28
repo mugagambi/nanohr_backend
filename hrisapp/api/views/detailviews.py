@@ -3,6 +3,13 @@ from rest_framework import generics
 from hrisapp.models import *
 from hrisapp.api.serializers import *
 
+
+class DepartmentWithIdPK(generics.ListCreateAPIView):
+    def get_queryset(self):
+        queryset = Department.objects.filter(id = self.kwargs["pk"])
+        return queryset
+    serializer_class = DepartmentSerializer
+
 class EmployeesInDepartmentPK(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = UserDepartment.objects.filter(department_id = self.kwargs["pk"])

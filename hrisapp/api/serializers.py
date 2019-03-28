@@ -4,6 +4,7 @@ from hrisapp.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
+import datetime
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -22,6 +23,24 @@ class UserAttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAttendance
         fields = ('user','date','timeIn','timeOut','weekday')
+    def create(self,validated_data):
+
+        user_data = validated_data.pop('user')
+        user = {}
+        user = User.objects.get(**user_data)
+    
+        userAttendance = UserAttendance.objects.create(user=user,**validated_data)
+        return userAttendance
+    def update(self,instance,validated_data):
+
+        now = datetime.datetime.now()
+        timeOut = now.strftime("%H:%M:%S")
+    
+        userAttendance = instance
+        userAttendance.timeOut = timeOut
+        userAttendance.save()
+
+        return userAttendance 
 
 class LeavesAndHolidaySerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,14 +65,29 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = ('id','departmentName',)
+        read_only_fields = ('id',)
         extra_kwargs = {'id': {'read_only': False}}
 
 class UserDepartmentSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     department = DepartmentSerializer()
+
     class Meta:
         model = UserDepartment
         fields = ('user','department','designation')
+
+    def create(self,validated_data):
+
+        user_data = validated_data.pop('user')
+        user = {}
+        user = User.objects.get(**user_data)
+
+        department_data = validated_data.pop('department')
+        department = {}
+        department = Department.objects.get(**department_data)
+    
+        userDepartment = UserDepartment.objects.create(user=user,department=department,**validated_data)
+        return userDepartment
 
 class AvailablePaymentMethodSerializer(serializers.ModelSerializer):
 

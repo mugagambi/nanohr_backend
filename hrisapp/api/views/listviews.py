@@ -6,6 +6,7 @@ from hrisapp.models import *
 from hrisapp.api.serializers import *
 
 from datetime import date 
+
 import json
 
 #list views.
@@ -27,29 +28,28 @@ class AttendanceList(APIView):
         day = today.day
         month = today.month
         year = today.year
+
         if filter == "today":
             attendanceList = UserAttendance.objects.filter(date__year=year, date__month=month, date__day=day)  
             data = UserAttendanceSerializer(attendanceList,many=True).data
 
         elif filter == "week":
             today = today.weekday()
-            counter = -1
             howFarIsMonday = today+1
             week_dict = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
             for i in range(howFarIsMonday):
                 attendanceList = UserAttendance.objects.filter(date__year=year, date__month=month, date__day=day - i)  
                 data = UserAttendanceSerializer(attendanceList,many=True).data  
                 week_dict[i] = data 
-                counter = counter+1
             data = week_dict  
 
         elif filter == "month":
             howFarIsDate1 = day+1
             month_dict = {new_list: [] for new_list in range(1,howFarIsDate1)}
             for i in range(howFarIsDate1):
-                attendanceList = UserAttendance.objects.filter(date__year=year, date__month=month, date__day=day - i+(howFarIsDate1-1))  
+                attendanceList = UserAttendance.objects.filter(date__year=year, date__month=month, date__day=day - i)  
                 data = UserAttendanceSerializer(attendanceList,many=True).data  
-            month_dict[i] = data 
+                month_dict[i] = data 
             data = month_dict
         return Response(data)
 
