@@ -170,6 +170,8 @@ class InternalDeduction(models.Model):
     account = models.ForeignKey(Account,related_name='internaldeductions',on_delete=models.CASCADE)
     internalDeductionType = models.ForeignKey(InternalDeductionType,related_name="internaldeductions",on_delete=models.CASCADE)
     deductionAmount= models.FloatField(default=0.00)
+    repaymentPeriod = models.IntegerField(default=1)
+    date = models.DateField(blank = True,null=True)
     settled = models.BooleanField(default=False)
 
     #TODO remove these
@@ -195,6 +197,7 @@ class SalaryAddition(models.Model):
     account = models.ForeignKey(Account,related_name='SalaryAdditions',on_delete=models.CASCADE)
     salaryAdditionType = models.ForeignKey(SalaryAdditionType,related_name="salaryadditions",on_delete=models.CASCADE)
     additionAmount = models.FloatField(default=0.00)
+    date = models.DateField(blank = True,null = True)
     settled = models.BooleanField(default=False)
 
 

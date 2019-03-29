@@ -16,6 +16,12 @@ class InternalDeductionTypeWithIdPK(generics.ListCreateAPIView):
         return queryset
     serializer_class = InternalDeductionTypeSerializer
 
+class salaryAdditionTypeWithIdPK(generics.ListCreateAPIView):
+    def get_queryset(self):
+        queryset = SalaryAdditionType.objects.filter(id = self.kwargs["pk"])
+        return queryset
+    serializer_class = SalaryAdditionTypeSerializer
+
 class EmployeesInDepartmentPK(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = UserDepartment.objects.filter(department_id = self.kwargs["pk"])
