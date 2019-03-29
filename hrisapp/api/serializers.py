@@ -205,7 +205,7 @@ class InternalDeductionSerializer(serializers.ModelSerializer):
     account = AccountSerializer()
     class Meta:
         model = InternalDeduction
-        fields = ('id','account','internalDeductionType','deductionAmount','description')  
+        fields = ('id','account','internalDeductionType','deductionAmount','repaymentPeriod','date','description')  
 
 
 
@@ -215,7 +215,7 @@ class CreateInternalDeductionSerializer(serializers.ModelSerializer):
     account = AccountSerializer()
     class Meta:
         model = InternalDeduction
-        fields = ('account','internalDeductionType','deductionAmount','description')   
+        fields = ('account','internalDeductionType','deductionAmount','date','description')   
     def create(self,validated_data):
 
         internalDeductionType_data = validated_data.pop('internalDeductionType')
@@ -236,7 +236,7 @@ class SalaryAdditionSerializer(serializers.ModelSerializer):
     salaryAdditionType = SalaryAdditionTypeSerializer()
     class Meta:
         model = SalaryAddition
-        fields = ('id','account', 'salaryAdditionType', 'additionAmount','description')
+        fields = ('id','account', 'date','salaryAdditionType', 'additionAmount','description')
 
 class CreateSalaryAdditionSerializer(serializers.ModelSerializer):
  

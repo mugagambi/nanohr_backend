@@ -62,7 +62,7 @@ urlpatterns = [
     path('update-government-rate-info/<slug:slug>/',updateviews.UpdateGovernmentRateNamedSLUG.as_view()),
     path('update-government-deduction-info/<slug:slug>/',updateviews.UpdateGovernmentDeductionNamedSLUG.as_view()),
     path('update-internal-deduction-info/<slug:slug>/',updateviews.UpdateInternalDeductionTypeNamedSLUG.as_view()),
-     path('update-commision-info/<slug:slug>/',updateviews.UpdateCommisionNamedSLUG.as_view()),  
+    path('update-commision-info/<slug:slug>/',updateviews.UpdateCommisionNamedSLUG.as_view()),  
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

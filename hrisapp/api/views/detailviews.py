@@ -3,6 +3,8 @@ from rest_framework import generics
 from hrisapp.models import *
 from hrisapp.api.serializers import *
 
+from datetime import date 
+
 
 class DepartmentWithIdPK(generics.ListCreateAPIView):
     def get_queryset(self):
@@ -53,8 +55,12 @@ class AccountsWithCommisiontypePK(generics.ListCreateAPIView):
     serializer_class = AccountSerializer
 
 class AccountsWithInternalDeductionPK(generics.ListCreateAPIView):
+    today = date.today()
+    day = today.day
+    month = today.month
+    year = today.year
     def get_queryset(self):
-        queryset = InternalDeduction.objects.filter(internalDeductionType_id = self.kwargs["pk"])
+        queryset = InternalDeduction.objects.filter(internalDeductionType_id = self.kwargs["pk"],date__year=self.year, date__month=self.month)
         return queryset
     serializer_class = InternalDeductionSerializer
 

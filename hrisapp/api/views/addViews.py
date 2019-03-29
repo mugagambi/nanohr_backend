@@ -66,11 +66,12 @@ class addInternalDeduction(APIView):
             internalDeductionType = internalDeductionType
         serializer = InternalDeductionTypeSerializer(internalDeductionType)
         internalDeductionType = serializer.data
-       
+         
+        date = request.data.get("date")
         amount = request.data.get("amount")
         description= request.data.get("description")
     
-        data = {'account':account,'internalDeductionType':internalDeductionType,'deductionAmount':amount,'description':description}
+        data = {'account':account,'internalDeductionType':internalDeductionType,'deductionAmount':amount,'date':date,'description':description}
         serializer = CreateInternalDeductionSerializer(data=data)
         if serializer.is_valid():
             created = serializer.save()

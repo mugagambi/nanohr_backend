@@ -1,7 +1,11 @@
 from django.db import models
+from django import utils
 from django.contrib.auth.models import User
 from json import JSONEncoder
 from uuid import UUID
+
+from  datetime import date
+import datetime
 
 JSONEncoder_olddefault = JSONEncoder.default
 def JSONEncoder_newdefault(self, o):
@@ -171,20 +175,8 @@ class InternalDeduction(models.Model):
     internalDeductionType = models.ForeignKey(InternalDeductionType,related_name="internaldeductions",on_delete=models.CASCADE)
     deductionAmount= models.FloatField(default=0.00)
     repaymentPeriod = models.IntegerField(default=1)
-    date = models.DateField(blank = True,null=True)
+    date = models.DateField(default = utils.timezone.now)
     settled = models.BooleanField(default=False)
-
-    #TODO remove these
-    @property
-    def deductionThisMonth(self):
-        deductionThisMonth = self.deductionAmount / self.numberOfInstallments
-        return deductionThisMonth
-
-    @property 
-    def draftCounter(self):
-        draftCounter = 0
-        return draftCounter
-
    
    #TODO add phone number validation module *this is very ineffective
    #TODO check if we need a zip code
@@ -197,7 +189,7 @@ class SalaryAddition(models.Model):
     account = models.ForeignKey(Account,related_name='SalaryAdditions',on_delete=models.CASCADE)
     salaryAdditionType = models.ForeignKey(SalaryAdditionType,related_name="salaryadditions",on_delete=models.CASCADE)
     additionAmount = models.FloatField(default=0.00)
-    date = models.DateField(blank = True,null = True)
+    date = models.DateField(blank = True,default = utils.timezone.now)
     settled = models.BooleanField(default=False)
 
 
@@ -207,6 +199,10 @@ class PaymentStatus(models.Model):
     account = models.ForeignKey(Account,related_name='paymentStatuses',on_delete=models.CASCADE)
     paymentDate = models.DateField(auto_now_add=True)
     status = models.BooleanField(default='False')
+
+    today = date.today()
+    month = today.month
+    year = today.year
 
     @property
     def basicpay(self):
@@ -241,17 +237,17 @@ class PaymentStatus(models.Model):
     @property
     def deductionTotal(self):
         account_id = self.account.id
-        queryset = InternalDeduction.objects.filter(account_id = account_id)
+        queryset = InternalDeduction.objects.filter(account_id = account_id , date__year=self.year, date__month=self.month)
         deductionTotal = 0
         for internalDeduction in queryset:
             if internalDeduction.settled == False:
-                deductionTotal += internalDeduction.deductionThisMonth
+                deductionTotal += internalDeduction.deductionAmount
         return deductionTotal
 
     @property
     def allowanceTotal(self):
         account_id = self.account.id
-        queryset = SalaryAddition.objects.filter(account_id = account_id)
+        queryset = SalaryAddition.objects.filter(account_id = account_id, date__year=self.year, date__month=self.month)
         allowanceTotal = 0
         for allowance in queryset:
             if allowance.settled == False:

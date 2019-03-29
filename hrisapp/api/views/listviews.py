@@ -14,14 +14,6 @@ class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class AttendanceDateList(APIView):
-    def get(self, request):
-        
-        dates = AttendanceDate.objects.filter(date__year='2019', date__month='03')  
-        data = AttendanceDateSerializer(dates, many=True).data
-        return Response(data)
- 
-
 class AttendanceList(APIView):
     def get(self,request,filter):
         today = date.today()
