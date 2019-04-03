@@ -6,7 +6,7 @@ urlpatterns = [
    #listing without details
     path('userlist/', listviews.UserList.as_view()),
     path('attendance-list/<slug:filter>/', listviews.AttendanceList.as_view()),
-    path('attendance-list-full/<slug:month>/<slug:day>/<slug:year>/', listviews.attendanceListForSpecificDate.as_view()),
+    path('attendance-list-full/<slug:date>/', listviews.attendanceListForSpecificDate.as_view()),
     path('department-list/',listviews.departmentList.as_view()),
     path('leave-types/', listviews.LeaveTypeList.as_view()),
     path('user-leaves-list/', listviews.UserLeaveList.as_view()),

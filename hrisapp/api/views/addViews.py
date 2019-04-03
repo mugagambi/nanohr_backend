@@ -36,10 +36,11 @@ class addAccount(APIView):
 
        
         bankName = request.data.get("bankName")
+        bankAccountNumber = request.data.get("bankAccountNumber")
         phoneNumber = request.data.get("phoneNumber")
     
         data = {'username':username,'prefferedPaymentMethod':prefferedPaymentMethod,
-        'salaryType':salaryType,'bankName':bankName,'phonenumber':phoneNumber}
+        'salaryType':salaryType,'bankName':bankName,'bankAccountNumber':bankAccountNumber,'phonenumber':phoneNumber}
         serializer = CreateAccountSerializer(data=data)
         if serializer.is_valid():
             created = serializer.save()

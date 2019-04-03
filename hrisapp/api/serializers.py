@@ -167,7 +167,7 @@ class AccountSerializer(serializers.ModelSerializer):
     salaryType = SalaryTypeSerializer()
     class Meta:
         model = Account
-        fields = ('id','username', 'prefferedPaymentMethod','salaryType','bankName','phonenumber','internalDeductions','salaryAdditions')
+        fields = ('id','username', 'prefferedPaymentMethod','salaryType','bankName','bankAccountName','phonenumber','internalDeductions','salaryAdditions')
         depth = 1
         extra_kwargs = {'id': {'read_only': False}}
 
@@ -178,7 +178,7 @@ class CreateAccountSerializer(serializers.ModelSerializer):
     salaryType = SalaryTypeSerializer()
     class Meta:
         model = Account
-        fields = fields = ('id','username', 'prefferedPaymentMethod','salaryType','bankName','phonenumber','internalDeductions','salaryAdditions')   
+        fields = fields = ('id','username', 'prefferedPaymentMethod','salaryType','bankName','bankAccountName','phonenumber','internalDeductions','salaryAdditions')   
     def create(self,validated_data):
 
         user_data = validated_data.pop('username')

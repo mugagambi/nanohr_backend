@@ -151,6 +151,7 @@ class Account(models.Model):
     prefferedPaymentMethod = models.ForeignKey(AvailablePaymentMethod,related_name="accounts",on_delete=models.CASCADE)
     salaryType = models.ForeignKey(SalaryType,related_name="accounts",on_delete=models.CASCADE)
     bankName = models.CharField(max_length=20)
+    bankAccountName = models.CharField(max_length = 20, default = "none given",blank= True)
     phonenumber = models.CharField(max_length=20)
     internalDeductions = models.ManyToManyField(InternalDeductionType,through='InternalDeduction')
     salaryAdditions = models.ManyToManyField(SalaryAdditionType,through='SalaryAddition')

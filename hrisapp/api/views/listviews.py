@@ -46,8 +46,8 @@ class AttendanceList(APIView):
         return Response(data)
 
 class attendanceListForSpecificDate(APIView):
-        def get(self,request,year,month,day):
-            attendanceList = UserAttendance.objects.filter(date__year=year, date__month=month, date__day=day)  
+        def get(self,request,date):
+            attendanceList = UserAttendance.objects.filter(date=date)  
             data = UserAttendanceSerializer(attendanceList,many=True).data
             return Response(data)
 
