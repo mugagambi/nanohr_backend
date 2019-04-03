@@ -1,7 +1,4 @@
-__pycache__/
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+*.pyc
+__ pycache __
+.env
+db.sqlite3

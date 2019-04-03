@@ -11,6 +11,15 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv(verbose=True)
+NAME = os.getenv("NAME")
+USER = os.getenv("ROLE")
+PASSWORD = os.getenv("PASSWORD")
+HOST = os.getenv("HOST")
+PORT = os.getenv("PORT")
+SECRET_KEY = os.getenv("SECRET_KEY")
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,8 +28,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5-2tf+v96h_60mx0#oos)i*!u9ezfj7b%875mov8uxm=-ewp3y'
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,8 +90,12 @@ WSGI_APPLICATION = 'hrisproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': NAME,
+        'USER': USER,
+        'PASSWORD': PASSWORD,
+        'HOST': HOST,
+        'PORT': PORT,
     }
 }
 
