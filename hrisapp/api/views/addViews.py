@@ -7,7 +7,21 @@ from hrisapp.api.serializers import *
 
 import datetime
 
+'''
+    add views are for posting data through the api
+'''
+
 class addAccount(APIView):
+    '''
+        post:
+        add an account for a user with the id <user_id>
+        who prefferes to be paid by available payment method with id <availablePaymentMethod_id>
+        and who will be paid a salary of type with id <salaryType_id>
+        with the following :
+            <bankname>
+            <bankAccontNumber>
+            <phoneNumber>
+    '''
     def post(self,request):
         
         user_id = request.data.get("user_id")
@@ -50,6 +64,11 @@ class addAccount(APIView):
 
 
 class addInternalDeduction(APIView):
+    '''
+        post:
+        add deduction of type with id <internalDeduction_id> and an 
+        amount <amount> for user account <account_id> on date <date> described as <description>
+    '''
     def post(self,request):
         
         account_id = request.data.get("account_id")
@@ -81,6 +100,11 @@ class addInternalDeduction(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class addAllowance(APIView):
+    '''
+    post:
+    add an allowance of type with id <salaryAddtionType_id> worth <amount>
+    to account with id <account_id> with description <description>
+    '''
     def post(self,request):
         
         account_id = request.data.get("account_id")
@@ -111,6 +135,11 @@ class addAllowance(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class addsalaryType(APIView):
+    '''
+        post:
+        add a type of salary called <name> where the basic pay will be amount <basicPay>
+        and commision is of type with id <commision_id> 
+    '''
     def post(self,request):
 
 
@@ -134,6 +163,10 @@ class addsalaryType(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CreateDraft(APIView):
+    '''
+    post:
+    draft the account with id <account_id>
+    '''
     def post(self,request):
 
         account_id = request.data.get("account_id")
@@ -152,6 +185,11 @@ class CreateDraft(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class AddUserToDepartment(APIView):
+    '''
+    post:
+    add a user with id <user_id> to the department with id <department_id>
+    with role <designation> 
+    '''
     def post(self,request):
 
         user_id = request.data.get("user_id")
@@ -181,6 +219,10 @@ class AddUserToDepartment(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CheckIn(APIView):
+    '''
+        post:
+        check the user with id <user_id> as in today .
+    '''
     def post(self,request):
  
         user_id = request.data.get("user_id")

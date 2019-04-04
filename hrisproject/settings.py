@@ -11,14 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-from dotenv import load_dotenv
-load_dotenv(verbose=True)
-NAME = os.getenv("NAME")
-USER = os.getenv("ROLE")
-PASSWORD = os.getenv("PASSWORD")
-HOST = os.getenv("HOST")
-PORT = os.getenv("PORT")
-SECRET_KEY = os.getenv("SECRET_KEY")
+from decouple import config
+
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -28,11 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-
+SECRET_KEY = config('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast = bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -91,11 +85,11 @@ WSGI_APPLICATION = 'hrisproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': NAME,
-        'USER': USER,
-        'PASSWORD': PASSWORD,
-        'HOST': HOST,
-        'PORT': PORT,
+        'NAME': config('NAME'),
+        'USER': config('ROLE'),
+        'PASSWORD': config('PASSWORD'),
+        'HOST': config('HOST'),
+        'PORT': config('PORT'),
     }
 }
 

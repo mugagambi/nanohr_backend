@@ -23,7 +23,7 @@ urlpatterns = [
     path('sales-list/', listviews.SalesList.as_view()),
 
    #urls to post data .
-
+   
     path('check-in/',addViews.CheckIn.as_view()),
     path('addUserToDepartment/',addViews.AddUserToDepartment.as_view()),
     path('addAccount/',addViews.addAccount.as_view()),
